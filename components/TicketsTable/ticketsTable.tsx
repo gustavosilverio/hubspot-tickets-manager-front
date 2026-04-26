@@ -12,25 +12,9 @@ import {
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Ticket, TicketStatus } from "@/lib/types"
-
-interface TicketsTableProps {
-	tickets: Ticket[]
-	isLoading: boolean
-}
-
-const statusConfig: Record<
-	TicketStatus,
-	{
-		label: string
-		variant: "default" | "secondary" | "destructive" | "outline"
-	}
-> = {
-	NEW: { label: "Novo", variant: "default" },
-	WAITING: { label: "Aguardando", variant: "secondary" },
-	IN_PROGRESS: { label: "Em andamento", variant: "outline" },
-	CLOSED: { label: "Fechado", variant: "secondary" },
-}
+import { Enums } from "@/lib/utils/types"
+import { TicketsTableProps } from "./ticketsTable.types"
+import { statusConfig } from "./ticketsTable.utils"
 
 function formatDate(dateString: string) {
 	try {
@@ -101,12 +85,12 @@ function EmptyState() {
 	)
 }
 
-export function TicketsTable({ tickets, isLoading }: TicketsTableProps) {
+export function TicketsTable({ data, isLoading }: TicketsTableProps) {
 	if (isLoading) {
 		return <TicketsTableSkeleton />
 	}
 
-	if (tickets.length === 0) {
+	if (data.length === 0) {
 		return <EmptyState />
 	}
 
@@ -121,16 +105,17 @@ export function TicketsTable({ tickets, isLoading }: TicketsTableProps) {
 				</TableRow>
 			</TableHeader>
 			<TableBody>
-				{tickets.map((ticket) => {
+				{data.map((ticket) => {
 					const status =
-						statusConfig[ticket.status] || statusConfig.NEW
+						statusConfig[ticket.properties.hs_pipeline_stage] ||
+						statusConfig[Enums.HubspotTicketPipelineStatus.NOVO]
 					return (
 						<TableRow key={ticket.id}>
 							<TableCell className="font-mono text-xs text-muted-foreground">
 								#{ticket.id.slice(0, 8)}
 							</TableCell>
 							<TableCell className="font-medium">
-								{ticket.subject}
+								{ticket.properties.subject}
 							</TableCell>
 							<TableCell>
 								<Badge variant={status.variant}>

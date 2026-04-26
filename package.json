@@ -41,6 +41,7 @@
 	"devDependencies": {
 		"@faker-js/faker": "^10.4.0",
 		"@tailwindcss/postcss": "^4",
+		"@tanstack/react-query-devtools": "^5.100.1",
 		"@types/node": "^20",
 		"@types/react": "^19",
 		"@types/react-dom": "^19",

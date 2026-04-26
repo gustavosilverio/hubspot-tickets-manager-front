@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono, Figtree } from "next/font/google"
 import "./globals.css"
 import { cn } from "@/lib/utils"
+import { Providers } from "@/components/Providers/Providers"
 
 const figtree = Figtree({ subsets: ["latin"], variable: "--font-sans" })
 
@@ -37,7 +38,9 @@ export default function RootLayout({
 				figtree.variable,
 			)}
 		>
-			<body>{children}</body>
+			<body>
+				<Providers>{children}</Providers>
+			</body>
 		</html>
 	)
 }

@@ -10,22 +10,9 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select"
-import type { TicketStatus } from "@/lib/types"
-
-interface TicketsFiltersProps {
-	search: string
-	onSearchChange: (value: string) => void
-	status: TicketStatus | "ALL"
-	onStatusChange: (value: TicketStatus | "ALL") => void
-}
-
-const statusOptions: { value: TicketStatus | "ALL"; label: string }[] = [
-	{ value: "ALL", label: "Todos os status" },
-	{ value: "NEW", label: "Novo" },
-	{ value: "WAITING", label: "Aguardando" },
-	{ value: "IN_PROGRESS", label: "Em andamento" },
-	{ value: "CLOSED", label: "Fechado" },
-]
+import { TicketsFiltersProps } from "./tickets-filters.types"
+import { Enums } from "@/lib/utils/types"
+import { statusOptions } from "./tickets-filters.utils"
 
 export function TicketsFilters({
 	search,
@@ -59,7 +46,11 @@ export function TicketsFilters({
 			<Select
 				value={status}
 				onValueChange={(value) =>
-					onStatusChange(value as TicketStatus | "ALL")
+					onStatusChange(
+						value as
+							| Enums.HubspotTicketPipelineStatus
+							| Enums.HubspotTicketPipelineStatus.NOVO,
+					)
 				}
 			>
 				<SelectTrigger className="w-full sm:w-[180px]">
