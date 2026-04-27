@@ -14,7 +14,7 @@ export namespace ObterListaTickets {
 		hs_object_id: string
 		hs_pipeline: string
 		hs_pipeline_stage: Enums.HubspotTicketPipelineStatus
-		hs_ticket_priority: "LOW" | "MEDIUM" | "HIGH" | "URGENT"
+		hs_ticket_priority: HubspotPriority
 		hubspot_owner_id: string
 		source_type: string | null
 		subject: string
@@ -31,3 +31,5 @@ export namespace ObterListaTickets {
 
 	export type Response = CommonResponse<Ticket[]>
 }
+
+export type HubspotPriority = "LOW" | "MEDIUM" | "HIGH" | "URGENT"

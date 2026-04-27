@@ -1,7 +1,5 @@
 "use client"
 
-import { format } from "date-fns"
-import { ptBR } from "date-fns/locale"
 import {
 	Table,
 	TableBody,
@@ -14,27 +12,23 @@ import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Enums } from "@/lib/utils/types"
 import { TicketsTableProps } from "./ticketsTable.types"
-import { statusConfig } from "./ticketsTable.utils"
-
-function formatDate(dateString: string) {
-	try {
-		return format(new Date(dateString), "dd 'de' MMM 'de' yyyy", {
-			locale: ptBR,
-		})
-	} catch {
-		return dateString
-	}
-}
+import { priorityConfig, statusConfig } from "./ticketsTable.utils"
+import { formatDate } from "@/lib/utils/format"
 
 function TicketsTableSkeleton() {
 	return (
 		<Table>
 			<TableHeader>
 				<TableRow>
-					<TableHead className="w-[100px]">ID</TableHead>
-					<TableHead>Assunto</TableHead>
-					<TableHead className="w-[140px]">Status</TableHead>
-					<TableHead className="w-[160px]">Criado em</TableHead>
+					<TableHead className="w-25">ID</TableHead>
+					<TableHead>Título do ticket</TableHead>
+					<TableHead>Descrição</TableHead>
+					<TableHead className="w-35">Status</TableHead>
+					<TableHead className="w-35">Prioridade</TableHead>
+					<TableHead className="w-40">Criado em</TableHead>
+					<TableHead className="w-40">
+						Ultima atualização em
+					</TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody>
@@ -44,10 +38,19 @@ function TicketsTableSkeleton() {
 							<Skeleton className="h-4 w-16" />
 						</TableCell>
 						<TableCell>
-							<Skeleton className="h-4 w-full max-w-[300px]" />
+							<Skeleton className="h-4 w-full" />
+						</TableCell>
+						<TableCell>
+							<Skeleton className="h-4 w-full" />
 						</TableCell>
 						<TableCell>
 							<Skeleton className="h-5 w-24" />
+						</TableCell>
+						<TableCell>
+							<Skeleton className="h-5 w-24" />
+						</TableCell>
+						<TableCell>
+							<Skeleton className="h-4 w-28" />
 						</TableCell>
 						<TableCell>
 							<Skeleton className="h-4 w-28" />
@@ -98,10 +101,15 @@ export function TicketsTable({ data, isLoading }: TicketsTableProps) {
 		<Table>
 			<TableHeader>
 				<TableRow>
-					<TableHead className="w-[100px]">ID</TableHead>
-					<TableHead>Assunto</TableHead>
-					<TableHead className="w-[140px]">Status</TableHead>
-					<TableHead className="w-[160px]">Criado em</TableHead>
+					<TableHead className="w-25">ID</TableHead>
+					<TableHead>Título do ticket</TableHead>
+					<TableHead>Descrição</TableHead>
+					<TableHead className="w-35">Status</TableHead>
+					<TableHead className="w-35">Prioridade</TableHead>
+					<TableHead className="w-40">Criado em</TableHead>
+					<TableHead className="w-40">
+						Ultima atualização em
+					</TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody>
@@ -109,6 +117,9 @@ export function TicketsTable({ data, isLoading }: TicketsTableProps) {
 					const status =
 						statusConfig[ticket.properties.hs_pipeline_stage] ||
 						statusConfig[Enums.HubspotTicketPipelineStatus.NOVO]
+
+					const prioridade =
+						priorityConfig[ticket.properties.hs_ticket_priority]
 					return (
 						<TableRow key={ticket.id}>
 							<TableCell className="font-mono text-xs text-muted-foreground">
@@ -117,13 +128,29 @@ export function TicketsTable({ data, isLoading }: TicketsTableProps) {
 							<TableCell className="font-medium">
 								{ticket.properties.subject}
 							</TableCell>
+							<TableCell className="max-w-100">
+								<p
+									className="text-ellipsis overflow-hidden"
+									title={ticket.properties.content}
+								>
+									{ticket.properties.content}
+								</p>
+							</TableCell>
 							<TableCell>
 								<Badge variant={status.variant}>
 									{status.label}
 								</Badge>
 							</TableCell>
+							<TableCell>
+								<Badge variant={prioridade.variant}>
+									{prioridade.label}
+								</Badge>
+							</TableCell>
 							<TableCell className="text-muted-foreground">
 								{formatDate(ticket.createdAt)}
+							</TableCell>
+							<TableCell className="text-muted-foreground">
+								{formatDate(ticket.updatedAt)}
 							</TableCell>
 						</TableRow>
 					)

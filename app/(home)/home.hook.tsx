@@ -1,24 +1,26 @@
 import { useObterListaTickets } from "@/api/controllers/tickets"
-import { Enums } from "@/lib/utils/types"
 import { useState } from "react"
 
 export const useHome = () => {
-	const [page, setPage] = useState(1)
-	const [status, setStatus] = useState<Enums.HubspotTicketPipelineStatus>(
-		Enums.HubspotTicketPipelineStatus.NOVO,
-	)
 	const [search, setSearch] = useState("")
 
 	const { data: tickets, isLoading: ticketsIsLoading } =
 		useObterListaTickets()
 
+	const normalizedSearch = search.toLowerCase()
+
+	const filteredTickets = tickets?.data
+		? tickets.data.filter((t) => {
+				if (!normalizedSearch) return true
+
+				const subject = t.properties?.subject || ""
+				return subject.toLowerCase().includes(normalizedSearch)
+			})
+		: []
+
 	return {
-		tickets,
+		tickets: filteredTickets,
 		ticketsIsLoading,
-		page,
-		setPage,
-		status,
-		setStatus,
 		search,
 		setSearch,
 	}

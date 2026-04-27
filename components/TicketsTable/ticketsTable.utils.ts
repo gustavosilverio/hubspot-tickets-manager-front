@@ -1,3 +1,4 @@
+import { HubspotPriority } from "@/api/models/tickets.types"
 import { Enums } from "@/lib/utils/types"
 
 export const statusConfig: Record<
@@ -36,5 +37,36 @@ export const statusConfig: Record<
 	[Enums.HubspotTicketPipelineStatus.RESOLVIDO]: {
 		label: "Resolvido",
 		variant: "secondary",
+	},
+}
+
+export const priorityConfig: Record<
+	HubspotPriority,
+	{
+		label: string
+		variant:
+			| "default"
+			| "destructive"
+			| "ghost"
+			| "link"
+			| "outline"
+			| "secondary"
+	}
+> = {
+	URGENT: {
+		label: "Urgente",
+		variant: "destructive",
+	},
+	HIGH: {
+		label: "Alta",
+		variant: "destructive",
+	},
+	MEDIUM: {
+		label: "Média",
+		variant: "default",
+	},
+	LOW: {
+		label: "Baixa",
+		variant: "outline",
 	},
 }
