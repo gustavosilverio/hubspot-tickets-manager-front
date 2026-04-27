@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hubspot Tickets Manager - Frontend
 
-## Getting Started
+Frontend do desafio tecnico "Login + Meus Tickets", desenvolvido com Next.js.
 
-First, run the development server:
+## Repositorio
+
+- GitHub: [https://github.com/gustavosilverio/hubspot-tickets-manager-front](https://github.com/gustavosilverio/hubspot-tickets-manager-front)
+
+## Pre-requisitos
+
+Antes de iniciar, garanta que voce tenha:
+
+- Git instalado
+- Node.js instalado (recomendado: versao LTS atual)
+- pnpm instalado (passo abaixo, se necessario)
+- API backend do desafio disponivel localmente
+
+## 1) Clonar o projeto
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/gustavosilverio/hubspot-tickets-manager-front.git
+cd hubspot-tickets-manager-front
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 2) Instalar o pnpm (se necessario)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Se nao tiver pnpm instalado:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install -g pnpm
+```
 
-## Learn More
+Para validar:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm -v
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 3) Criar e configurar o arquivo .env.development
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Na raiz do projeto, crie o arquivo `.env.development` com o conteudo abaixo:
 
-## Deploy on Vercel
+```env
+NEXT_PUBLIC_BASE_URL=http://localhost:3031
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Observacao:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `NEXT_PUBLIC_BASE_URL` deve apontar para a URL da API backend.
+- Se sua API estiver em outra porta/host, ajuste esse valor.
+
+## 4) Instalar dependencias do frontend
+
+```bash
+pnpm install
+```
+
+## 5) Iniciar a API backend (primeiro)
+
+Antes de iniciar o frontend, suba a API backend do desafio e confirme que ela esta respondendo.
+
+Importante:
+
+- A aplicacao frontend espera que o backend esteja disponivel na URL definida em `NEXT_PUBLIC_BASE_URL`.
+- Se o backend nao estiver rodando, o login e a listagem de tickets nao vao funcionar.
+
+## 6) Iniciar o frontend
+
+Com o backend ja rodando:
+
+```bash
+pnpm run dev
+```
+
+Abra no navegador:
+
+- [http://localhost:3000](http://localhost:3000)
+
+## Fluxo esperado no teste
+
+Obs: Já criei um contato com tickets no Hubspot (email: tickets.manager@tropicalhub.co)
+***Aviso importante:*** Necessário criar o usuário no banco pela API antes de tentar fazer o login no frontend
+
+1. Subir backend
+2. Subir frontend
+3. Acessar tela de login
+4. Fazer login com usuario valido no backend
+5. Verificar exibicao da tela "Meus Tickets"
